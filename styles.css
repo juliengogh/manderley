@@ -107,3 +107,10 @@ button:disabled {
 #result-container button:hover {
     background-color: #218838;
 }
+.description {
+    font-size: 16px;
+    color: #ccc; /* 描述文字颜色 */
+    margin-bottom: 30px; /* 增大与第一个问题的间距 */
+    line-height: 1.6; /* 设置行高 */
+    text-align: center; /* 文字居中 */
+}
