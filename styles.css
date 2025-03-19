@@ -19,7 +19,7 @@ body {
 
 h1 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* 增大标题与第一个问题之间的间距 */
     color: #fff; /* 标题文字颜色改为白色 */
 }
 
@@ -78,16 +78,30 @@ button:disabled {
     max-width: 100%;
     width: 90%;
     margin: 20px auto;
+    text-align: center; /* 结果页面信息居中 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 使内容垂直居中 */
 }
 
 #result-container h1 {
     font-size: 22px;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* 调整标题与角色之间的间距 */
     color: #fff; /* 结果标题文字颜色改为白色 */
+}
+
+#result-container #result {
+    font-size: 28px; /* 增大角色字号 */
+    margin-top: 10px; /* 设置一行间距 */
+    font-weight: bold;
+    color: #ffcc00; /* 角色文字颜色改为黄色 */
 }
 
 #result-container button {
     background-color: #28a745;
+    margin-top: 40px; /* 将按钮放置在页面最下方 */
 }
 
 #result-container button:hover {
