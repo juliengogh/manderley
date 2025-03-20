@@ -101,8 +101,7 @@ button:disabled {
 
 #result-container #result .recommendation {
     color: #ffcc00; /* 角色名称颜色为黄色 */
-    margin-top: 20px; /* 增加上边距 */
-    display: block; /* 将 span 改为块级元素，使 margin-top 生效 */
+    display: inline; /* 确保角色名称与“推荐人物：”在同一行 */
 }
 
 #result-container button {
