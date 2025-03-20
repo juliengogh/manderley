@@ -93,14 +93,14 @@ button:disabled {
 }
 
 #result-container #result {
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 10px;
-    line-height: 1.4;
+    line-height: 1.6;
     color: #fff; /* 结果文字颜色为白色 */
 }
 
 #result-container #result .recommendation {
-    color: #ffcc00; /* “推荐人物”后面的文字颜色为黄色 */
+    color: #ffcc00; /* 角色名称颜色为黄色 */
     margin-top: 20px; /* 增加上边距 */
     display: block; /* 将 span 改为块级元素，使 margin-top 生效 */
 }
