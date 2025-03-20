@@ -101,6 +101,8 @@ button:disabled {
 
 #result-container #result .recommendation {
     color: #ffcc00; /* “推荐人物”后面的文字颜色为黄色 */
+    margin-top: 20px; /* 增加上边距 */
+    display: block; /* 将 span 改为块级元素，使 margin-top 生效 */
 }
 
 #result-container button {
