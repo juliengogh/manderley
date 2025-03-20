@@ -89,14 +89,18 @@ button:disabled {
 #result-container h1 {
     font-size: 22px;
     margin-bottom: 10px;
-    color: #fff;
+    color: #fff; /* 标题文字颜色为白色 */
 }
 
 #result-container #result {
-    font-size: 20px; /* 调整结果文字大小 */
+    font-size: 20px;
     margin-top: 10px;
-    line-height: 1.6; /* 设置行高 */
-    color: #ffcc00; /* 结果文字颜色 */
+    line-height: 1.6;
+    color: #fff; /* 结果文字颜色为白色 */
+}
+
+#result-container #result .recommendation {
+    color: #ffcc00; /* “推荐人物”后面的文字颜色为黄色 */
 }
 
 #result-container button {
