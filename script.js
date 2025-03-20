@@ -50,6 +50,6 @@ showResultButton.addEventListener('click', () => {
         }
     }
 
-    // 跳转到结果页面
+    // 跳转到结果页面，并传递角色信息
     window.location.href = `result.html?role=${encodeURIComponent(finalRole)}`;
 });
