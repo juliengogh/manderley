@@ -30,7 +30,7 @@ showResultButton.addEventListener('click', () => {
     });
 
     let finalRole = '';
-    const priorityOrder = ["赫卡特", "青蛇", "德温特", "丹佛斯", "麦克白", "白蛇"]; // 修改优先级
+    const priorityOrder = ["赫卡忒", "青蛇", "艾格尼丝·纳史密斯", "凯瑟琳·坎贝尔", "麦克白", "白蛇"]; // 修改优先级
 
     // 检查是否有角色被选中超过2次
     for (const role in roleCounts) {
