@@ -3,24 +3,24 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #000; /* 背景改为黑色 */
-    color: #fff; /* 文字颜色改为白色 */
+    background-color: #000;
+    color: #fff;
 }
 
-#quiz-container {
+#quiz-container, #result-container {
     margin: 20px auto;
     padding: 15px;
-    background-color: #333; /* 容器背景改为深灰色 */
+    background-color: #333;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* 阴影颜色调整 */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     max-width: 100%;
     width: 90%;
 }
 
 h1 {
     font-size: 24px;
-    margin-bottom: 40px; /* 增大标题与第一个问题之间的间距 */
-    color: #fff; /* 标题文字颜色改为白色 */
+    margin-bottom: 40px;
+    color: #fff;
 }
 
 .question {
@@ -32,14 +32,14 @@ h1 {
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #fff; /* 问题文字颜色改为白色 */
+    color: #fff;
 }
 
 label {
     display: block;
     margin: 10px 0;
     font-size: 12px;
-    color: #fff; /* 选项文字颜色改为白色 */
+    color: #fff;
 }
 
 input[type="radio"] {
@@ -65,19 +65,13 @@ button:hover {
 }
 
 button:disabled {
-    background-color: #555; /* 禁用按钮背景改为深灰色 */
+    background-color: #555;
     cursor: not-allowed;
 }
 
 #result-container {
     margin-top: 20px;
     padding: 20px;
-    background-color: #333;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    max-width: 100%;
-    width: 90%;
-    margin: 20px auto;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -89,19 +83,17 @@ button:disabled {
 #result-container h1 {
     font-size: 22px;
     margin-bottom: 10px;
-    color: #fff; /* 标题文字颜色为白色 */
 }
 
 #result-container #result {
     font-size: 20px;
     margin-top: 10px;
     line-height: 1.6;
-    color: #fff; /* 结果文字颜色为白色 */
 }
 
 #result-container #result .recommendation {
-    color: #ffcc00; /* 角色名称颜色为黄色 */
-    display: inline; /* 确保角色名称与“推荐人物：”在同一行 */
+    color: #ffcc00;
+    display: inline;
 }
 
 #result-container button {
@@ -112,20 +104,43 @@ button:disabled {
 #result-container button:hover {
     background-color: #218838;
 }
+
 .description {
     font-size: 16px;
-    color: #ccc; /* 描述文字颜色 */
-    margin-bottom: 30px; /* 增大与第一个问题的间距 */
-    line-height: 1.6; /* 设置行高 */
-    text-align: left; /* 文字靠左对齐 */
-    text-indent: 2em; /* 首行缩进两个字符 */
-    padding: 0 20px; /* 添加左右内边距，避免文字贴边 */
+    color: #ccc;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    text-align: left;
+    text-indent: 2em;
+    padding: 0 20px;
 }
 
 /* 手机端优化 */
 @media (max-width: 600px) {
     .description {
-        font-size: 16px; /* 手机端字体稍小 */
-        padding: 0 10px; /* 手机端左右内边距稍小 */
+        font-size: 16px;
+        padding: 0 10px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    #quiz-container, #result-container {
+        background-color: white;
+        color: black;
+        box-shadow: none;
+    }
+    
+    button {
+        display: none;
     }
 }
