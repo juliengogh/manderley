@@ -3,10 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>你的曼德雷常驻民画像</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 预加载和CDN备用方案 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/script.js" as="script">
+    <link rel="stylesheet" href="styles.css" onerror="loadFallbackCSS()">
+    
+    <!-- 加载备用CSS的脚本 -->
+    <script>
+        function loadFallbackCSS() {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css';
+            document.head.appendChild(link);
+        }
+        
+        // 检测资源加载状态
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+            
+            // 检查CSS是否加载成功
+            if (!document.querySelector('style[data-loaded="true"]')) {
+                loadFallbackCSS();
+            }
+        });
+        
+        // 超时处理
+        setTimeout(function() {
+            if(document.getElementById('loading').style.display !== 'none') {
+                document.getElementById('loading').innerHTML = 
+                    '<div style="color:#fff;text-align:center;padding:20px;">' +
+                    '   <p>加载遇到问题，请尝试：</p>' +
+                    '   <p>1. 切换网络(WiFi/4G/5G)</p>' +
+                    '   <p>2. 稍后再试</p>' +
+                    '   <button onclick="window.location.reload()" style="padding:10px 20px;margin-top:20px;background:#007bff;color:#fff;border:none;border-radius:5px;">重新加载</button>' +
+                    '</div>';
+            }
+        }, 5000);
+    </script>
 </head>
 <body>
+    <!-- 加载指示器 -->
+    <div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
+        <div style="color:#fff;font-size:20px;">加载中...</div>
+    </div>
+    
     <div id="quiz-container">
         <h1>你的曼德雷常驻民画像</h1>
         
@@ -52,8 +97,7 @@
 
             <!-- 问题3 -->
             <div class="question">
-                <p>3. 你潜伏多时，终于发现对手的软肋。正当你准备给予对手致命一击时，密报传来，盟友已暗中倒戈。面对背叛，你的本能反应是？
-</p>
+                <p>3. 你潜伏多时，终于发现对手的软肋。正当你准备给予对手致命一击时，密报传来，盟友已暗中倒戈。面对背叛，你的本能反应是？</p>
                 <label>
                     <input type="radio" name="q3" value="麦克白"> 用鲜血重建信义，与盟友同归于尽
                 </label>
@@ -72,6 +116,8 @@
         <!-- 查看结果按钮 -->
         <button id="show-result-button" disabled>查看你的曼德雷常驻民画像</button>
     </div>
-    <script src="script.js"></script>
+    
+    <!-- 使用CDN作为备用方案 -->
+    <script src="script.js" onerror="this.src='https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/script.js'"></script>
 </body>
 </html>
