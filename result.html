@@ -3,91 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="max-age=3600, public">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>曼德雷常驻民画像结果</title>
     
-    <!-- DNS预解析 -->
-    <link rel="dns-prefetch" href="https://cdn.bootcdn.net">
-    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
-    
-    <!-- 预连接 -->
-    <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
-    <link rel="preconnect" href="https://cdn.staticfile.org" crossorigin>
-    
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css" as="style">
-    
-    <!-- 主CSS - 多CDN备用 -->
+    <!-- 预加载和CDN备用方案 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css" as="style">
     <link rel="stylesheet" href="styles.css" onerror="loadFallbackCSS()">
     
     <script>
-        // 多CDN备用源
-        const cssCDNs = [
-            'https://cdn.bootcdn.net/ajax/libs/manderley-css/1.0.0/styles.min.css',
-            'https://cdn.staticfile.org/manderley-css/1.0.0/styles.min.css',
-            'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css'
-        ];
-        
-        // 加载备用CSS
         function loadFallbackCSS() {
-            let loaded = false;
-            for (const cdn of cssCDNs) {
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = cdn;
-                link.onerror = () => {};
-                document.head.appendChild(link);
-                loaded = true;
-                break;
-            }
-            
-            if (!loaded) {
-                // 内联关键CSS
-                const style = document.createElement('style');
-                style.textContent = `
-                    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #000; color: #fff; }
-                    #result-container { margin: 20px auto; padding: 15px; max-width: 90%; }
-                    button { padding: 10px 20px; background: #28a745; color: #fff; border: none; border-radius: 5px; }
-                    .recommendation { color: #ffcc00; }
-                `;
-                document.head.appendChild(style);
-            }
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css';
+            document.head.appendChild(link);
         }
-        
-        // 超时处理
-        let resourceTimeout = setTimeout(function() {
-            if (document.getElementById('loading').style.display !== 'none') {
-                document.getElementById('loading').innerHTML = 
-                    '<div style="color:#fff;text-align:center;padding:20px;">' +
-                    '   <p>加载遇到问题，请尝试：</p>' +
-                    '   <p>1. 切换网络(WiFi/4G/5G)</p>' +
-                    '   <p>2. 稍后再试</p>' +
-                    '   <button onclick="window.location.reload()" style="padding:10px 20px;margin-top:20px;background:#007bff;color:#fff;border:none;border-radius:5px;">重新加载</button>' +
-                    '</div>';
-            }
-        }, 5000);
-        
-        // 清除超时
-        window.addEventListener('load', function() {
-            clearTimeout(resourceTimeout);
-            document.getElementById('loading').style.display = 'none';
-            
-            // 检查CSS是否加载成功
-            const stylesheets = Array.from(document.styleSheets);
-            const cssLoaded = stylesheets.some(sheet => {
-                try {
-                    return sheet.cssRules.length > 0;
-                } catch (e) {
-                    return false;
-                }
-            });
-            
-            if (!cssLoaded) {
-                loadFallbackCSS();
-            }
-        });
     </script>
 </head>
 <body>
@@ -103,6 +34,24 @@
     </div>
     
     <script>
+        // 隐藏加载指示器
+        window.addEventListener('load', function() {
+            document.getElementById('loading').style.display = 'none';
+        });
+        
+        // 超时处理
+        setTimeout(function() {
+            if(document.getElementById('loading').style.display !== 'none') {
+                document.getElementById('loading').innerHTML = 
+                    '<div style="color:#fff;text-align:center;padding:20px;">' +
+                    '   <p>加载遇到问题，请尝试：</p>' +
+                    '   <p>1. 切换网络(WiFi/4G/5G)</p>' +
+                    '   <p>2. 稍后再试</p>' +
+                    '   <button onclick="window.location.reload()" style="padding:10px 20px;margin-top:20px;background:#007bff;color:#fff;border:none;border-radius:5px;">重新加载</button>' +
+                    '</div>';
+            }
+        }, 5000);
+
         // 从URL参数中获取角色
         const urlParams = new URLSearchParams(window.location.search);
         const role = urlParams.get('role');
@@ -149,20 +98,11 @@
                 `;
                 break;
             default:
-                resultText = '未知结果，请重新测试';
+                resultText = '未知';
         }
 
         // 显示结果
         resultElement.innerHTML = resultText;
-        
-        // 存储结果到本地，减少重复计算
-        if (role) {
-            try {
-                localStorage.setItem('manderley_last_result', role);
-            } catch (e) {
-                // 忽略本地存储错误
-            }
-        }
     </script>
 </body>
 </html>
