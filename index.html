@@ -3,38 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="max-age=3600, public">
     <title>你的曼德雷常驻民画像</title>
     
-    <!-- 预加载和CDN备用方案 -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css" as="style">
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/script.js" as="script">
+    <!-- DNS预解析 -->
+    <link rel="dns-prefetch" href="https://cdn.bootcdn.net">
+    <link rel="dns-prefetch" href="https://cdn.staticfile.org">
+    
+    <!-- 预连接 -->
+    <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin>
+    <link rel="preconnect" href="https://cdn.staticfile.org" crossorigin>
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    
+    <!-- 主CSS - 多CDN备用 -->
     <link rel="stylesheet" href="styles.css" onerror="loadFallbackCSS()">
     
     <!-- 加载备用CSS的脚本 -->
     <script>
+        // 多CDN备用源
+        const cssCDNs = [
+            'https://cdn.bootcdn.net/ajax/libs/manderley-css/1.0.0/styles.min.css',
+            'https://cdn.staticfile.org/manderley-css/1.0.0/styles.min.css',
+            'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css'
+        ];
+        
+        const jsCDNs = [
+            'https://cdn.bootcdn.net/ajax/libs/manderley-js/1.0.0/script.min.js',
+            'https://cdn.staticfile.org/manderley-js/1.0.0/script.min.js',
+            'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/script.js'
+        ];
+        
+        // 加载备用CSS
         function loadFallbackCSS() {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css';
-            document.head.appendChild(link);
+            let loaded = false;
+            for (const cdn of cssCDNs) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = cdn;
+                link.onerror = () => {};
+                document.head.appendChild(link);
+                loaded = true;
+                break; // 只加载第一个可用的
+            }
+            
+            if (!loaded) {
+                // 如果所有CDN都失败，使用内联关键CSS
+                const style = document.createElement('style');
+                style.textContent = `
+                    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #000; color: #fff; }
+                    #quiz-container { margin: 20px auto; padding: 15px; max-width: 90%; }
+                    .question { margin-bottom: 20px; text-align: left; }
+                    label { display: block; margin: 10px 0; }
+                    button { padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 5px; }
+                `;
+                document.head.appendChild(style);
+            }
         }
         
         // 检测资源加载状态
-        window.addEventListener('load', function() {
+        function checkResourcesLoaded() {
             document.getElementById('loading').style.display = 'none';
             
             // 检查CSS是否加载成功
-            if (!document.querySelector('style[data-loaded="true"]')) {
+            const stylesheets = Array.from(document.styleSheets);
+            const cssLoaded = stylesheets.some(sheet => {
+                try {
+                    return sheet.cssRules.length > 0;
+                } catch (e) {
+                    return false;
+                }
+            });
+            
+            if (!cssLoaded) {
                 loadFallbackCSS();
             }
-        });
+        }
         
         // 超时处理
-        setTimeout(function() {
-            if(document.getElementById('loading').style.display !== 'none') {
+        let resourceTimeout = setTimeout(function() {
+            if (document.getElementById('loading').style.display !== 'none') {
                 document.getElementById('loading').innerHTML = 
                     '<div style="color:#fff;text-align:center;padding:20px;">' +
                     '   <p>加载遇到问题，请尝试：</p>' +
@@ -44,6 +96,23 @@
                     '</div>';
             }
         }, 5000);
+        
+        // 清除超时
+        window.addEventListener('load', function() {
+            clearTimeout(resourceTimeout);
+            checkResourcesLoaded();
+        });
+        
+        // 提前执行部分JS功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启用按钮交互
+            const showResultButton = document.getElementById('show-result-button');
+            if (showResultButton) {
+                showResultButton.addEventListener('click', function() {
+                    alert('请等待所有资源加载完成');
+                });
+            }
+        });
     </script>
 </head>
 <body>
@@ -117,7 +186,25 @@
         <button id="show-result-button" disabled>查看你的曼德雷常驻民画像</button>
     </div>
     
-    <!-- 使用CDN作为备用方案 -->
-    <script src="script.js" onerror="this.src='https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/script.js'"></script>
+    <!-- 使用多CDN作为备用方案 -->
+    <script src="script.js" onerror="loadFallbackJS()"></script>
+    <script>
+        function loadFallbackJS() {
+            let loaded = false;
+            for (const cdn of jsCDNs) {
+                const script = document.createElement('script');
+                script.src = cdn;
+                script.onerror = () => {};
+                document.body.appendChild(script);
+                loaded = true;
+                break; // 只加载第一个可用的
+            }
+            
+            if (!loaded) {
+                // 如果所有CDN都失败，显示错误信息
+                alert('无法加载必要的脚本资源，请刷新页面或检查网络连接');
+            }
+        }
+    </script>
 </body>
 </html>
