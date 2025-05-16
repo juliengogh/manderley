@@ -3,41 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
     <title>曼德雷常驻民画像结果</title>
     
-    <!-- 预加载和CDN备用方案 -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css" as="style">
+    <!-- 多CDN源预加载 -->
+    <link rel="preload" href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" as="style">
+    <link rel="preload" href="styles.css" as="style">
+    
+    <!-- 主样式表加载，带多级回退 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="stylesheet" href="styles.css" onerror="loadFallbackCSS()">
     
     <script>
+        // 多级回退CSS加载
         function loadFallbackCSS() {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css';
-            document.head.appendChild(link);
+            const fallbackSources = [
+                'https://cdn.jsdelivr.net/gh/juliengogh/manderley@main/styles.css',
+                'https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css'
+            ];
+            
+            let loaded = false;
+            fallbackSources.forEach(src => {
+                if (!loaded) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = src;
+                    link.onload = () => loaded = true;
+                    document.head.appendChild(link);
+                }
+            });
         }
-    </script>
-</head>
-<body>
-    <!-- 加载指示器 -->
-    <div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
-        <div style="color:#fff;font-size:20px;">加载中...</div>
-    </div>
-    
-    <div id="result-container">
-        <h1>你的今日曼德雷常驻民画像：</h1>
-        <div id="result"></div>
-        <button onclick="window.location.href = 'index.html'">重新测试</button>
-    </div>
-    
-    <script>
-        // 隐藏加载指示器
-        window.addEventListener('load', function() {
+        
+        // 资源加载状态检测
+        function checkResourcesLoaded() {
             document.getElementById('loading').style.display = 'none';
-        });
+            
+            // 检查CSS是否加载成功
+            if (!document.querySelector('link[href*="styles.css"]') && 
+                !document.querySelector('link[href*="normalize"]')) {
+                loadFallbackCSS();
+            }
+        }
+        
+        window.addEventListener('load', checkResourcesLoaded);
         
         // 超时处理
         setTimeout(function() {
@@ -104,5 +112,17 @@
         // 显示结果
         resultElement.innerHTML = resultText;
     </script>
+</head>
+<body>
+    <!-- 加载指示器 -->
+    <div id="loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;justify-content:center;align-items:center;">
+        <div style="color:#fff;font-size:20px;">加载中...</div>
+    </div>
+    
+    <div id="result-container">
+        <h1>你的今日曼德雷常驻民画像：</h1>
+        <div id="result"></div>
+        <button onclick="window.location.href = 'index.html'">重新测试</button>
+    </div>
 </body>
 </html>
